@@ -1,6 +1,8 @@
 ## How to stream to both Facebook live and YouTube live at the same time
 
-First, a quick note. You will need a Linux distro, or a similar OS such as macOS, to be able to do this. This has been tested many times on WSL (Windows Subsystem for Linux), and for whatever reason (as of April 2020) it will not work. 
+Do you stream through facebook or youtube? Do you wish you could stream to both at the same time without paying hundreds of dollars for expensive software? Well, this guide will show you how!
+
+First, a quick note. You will need a Linux distro, or a similar OS such as macOS, to be able to do this. This has been tested a few times on WSL (Windows Subsystem for Linux), and for whatever reason (as of April 2020) it will not work. 
 
 Ok, so for the first step you need to sign up for an AWS account [here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=default&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). You will need a credit card, but since this tutorial will cover using the free tier, you should not be charged for it.
 
