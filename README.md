@@ -30,7 +30,7 @@ Click *Review and Launch* to finish. Make sure that the security group's setting
 Select *Create a new key pair* from the drop-down menu. Name it something memorable, download it, and select *Launch Instances*.
 Now select *View Instances*. Copy the Puplic DNS.
 
-![public dns(img/publicdns.jpg)
+![public dns](img/publicdns.jpg)
 
 Fire up a terminal in the directory in which you have the key pair. Run `sudo chmod 400 <yourkeypairname>.pem`.
 Then, run `sudo ssh -i '<yourkeypairname>.pem' ubuntu@<yourpublicdns>`, replacing <yourpublicdns> with the string copied earlier. If all goes well, your terminal should ask you if you want to keep connecting. Type yes and hit enter. If you do not get this message and instead get something like "the host is not available at this time", just give it a few minutes and try again.
