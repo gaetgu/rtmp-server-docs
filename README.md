@@ -5,7 +5,7 @@ First, a quick note. You will need a Linux distro, or a similar OS such as macOS
 Ok, so for the first step you need to sign up for an AWS account [here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=default&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). You will need a credit card, but since this tutorial will cover using the free tier, you should not be charged for it.
 
 Second, you need to create an *EC2* instance.
-![select ec2](img/AWS Management Console - Mozilla Firefox 4_6_2020 10_18_42 AM_LI.jpg)
+![select ec2](/img/AWS Management Console - Mozilla Firefox 4_6_2020 10_18_42 AM_LI.jpg)
 Select Ubuntu Server 18.05 LTS for your distro.
 Click *Next: Configure Instance Details*. You will not need to do anyhting here, so click *Next: Add Storage*.
 Again, this should not be messed with, so click *Next: Add Tags*, and click *Next: Configure Security Group*.
