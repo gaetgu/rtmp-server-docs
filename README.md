@@ -10,7 +10,7 @@ Second, you need to create an *EC2* instance.
 
 Select Ubuntu Server 18.05 LTS for your distro.
 
-![select ubuntu](img/ubuntu.jpg)
+![select ubuntu](img/ubuntu.jpg.jpg)
 
 Click *Next: Configure Instance Details*. You will not need to do anyhting here, so click *Next: Add Storage*.
 Again, this should not be messed with, so click *Next: Add Tags*, and click *Next: Configure Security Group*.
