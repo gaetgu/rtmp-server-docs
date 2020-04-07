@@ -6,7 +6,7 @@ Ok, so for the first step you need to sign up for an AWS account [here](https://
 
 Second, you need to create an *EC2* instance.
 
-![select ec2] (img/ec2.jpg)
+![select ec2](img/ec2.jpg.jpg)
 Select Ubuntu Server 18.05 LTS for your distro.
 
 Click *Next: Configure Instance Details*. You will not need to do anyhting here, so click *Next: Add Storage*.
