@@ -10,7 +10,7 @@ You might ask "Why would I want to do this?" Well, there is one basic reason. Ma
 
 ![default](img/default_stream.png)
 
-Their stream just goes to one computer, than to the internet and one source. This is probably what you are doing right now. You *could* stream to two services by running two computers and two cameras, or splitting the output from one camera to two cameras. An example of this is seen below:
+Their stream just goes to one computer, then to the internet and one source. This is probably what you are doing right now. You *could* stream to two services by running two computers and two cameras, or splitting the output from one camera to two cameras. An example of this is seen below:
 
 ![double](img/double_stream.png)
 
