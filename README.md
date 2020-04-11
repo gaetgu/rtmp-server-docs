@@ -14,15 +14,15 @@ Their stream just goes to one computer, than to the internet and one source. Thi
 
 ![double](img/double_stream.png)
 
-The main problem with this is you need two operators, or one overtasked one, to get the job done. It also takes up a lot of bandwidth. A way to get around this is to send the stream to a local server which duplicates the stream and sends it to the two or more services.
+The main problem with this is you need two operators, or one overtasked one, to get the job done. It also takes up a lot of bandwidth. A way to get around this is to send the stream to a local server which duplicates the stream and sends it to the two or more services. You can use a program like [vmix] or [wirecast] to do this, but it will cost you money. Or you can run your own nginx-rmtp server to accomplish the same thing.
 
 ![local_proxy](img/proxy_stream.png)
 
-While this eliminated the two operators problem, it still takes up a lot of bandwidth. How do you get around this? Well, most people end up buying expensive software like [wirecast](https://www.telestream.net/wirecast/store.asp) or using a subscription-based service such as [restream.io](restream.io). Well, there is a better (and free) alternative! Using Amazon Web Services (or AWS), we can do the same thing as the last solution, but with half the bandwidth! It is the same except that the server is not local.
+While this eliminated the two operators problem, it still takes up a lot of bandwidth. How do you get around this? Most people end up using expensive solutions such as [restream.io](restream.io). For one person this is really not a big deal, but if you are a business this can end up costing you thousands of dollars. Well, there is a better (and free) alternative! Using Amazon Web Services (or AWS), we can do the same thing as the last solution, but with half the bandwidth! It is the same except that the server is not local.
 
 ![ec2_proxy_stream](img/ec2_proxy_stream.png)
 
-You send your stream to the server, then the server splits it up, sending it to your services. Since the server is not local, you are using the same bandwidth as just streaming to one service!
+You send your stream to the server, then the server splits it up, sending it to your services. Since the server is not local, you are using the same bandwidth as just streaming to one service, because the bandwidth is being used in amazon's server.
 
 Ok, so for the first step you need to sign up for an AWS account [here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=default&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). You will need a credit card, but since this tutorial will cover using the free tier, you should not be charged for it.
 
