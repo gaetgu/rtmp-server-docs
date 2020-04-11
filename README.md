@@ -52,7 +52,7 @@ Click *Review and Launch* to finish. Make sure that the security group's setting
 Select *Create a new key pair* from the drop-down menu. Name it something memorable, download it, and select *Launch Instances*.
 Now select *View Instances*. Copy the Puplic DNS.
 
-![public dns](img/publicdns_LI.jpg)
+![public dns](img/publicdns_LI (2).jpg)
 
 Fire up a terminal in the directory in which you have the key pair. Run `sudo chmod 400 <yourkeypairname>.pem`.
 Then, run `sudo ssh -i '<yourkeypairname>.pem' ubuntu@<yourpublicdns>`, replacing <yourpublicdns> with the string copied earlier. If all goes well, your terminal should ask you if you want to keep connecting. Type yes and hit enter. If you do not get this message and instead get something like "the host is not available at this time", just give it a few minutes and try again.
@@ -192,7 +192,7 @@ rtmp {
 #}
 ```
 Alright, right now you would have to change this file every time you made a new stream. To change this, in YT Live select *Create New Stream Key* in the drop-down menu. 
-==image==
+
 Once you have created this key, go to the same drop-down menu and select your key name. Copy this key and paste it into the YT area of the nginx.conf file.
 
 Third, you need to configure *stunnel*. Facebook enforces rtmp*s*, so stunnel will allow you to do both rtmp (YT), and rtmps (FB). Run `sudo nano /etc/stunnel/stunnel.conf`. You need to replace the file with this:
