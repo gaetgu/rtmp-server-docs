@@ -4,6 +4,26 @@ Do you stream through facebook or youtube? Do you wish you could stream to both 
 
 First, a quick note. You will need a Linux distro, or a similar OS such as macOS, to be able to do this. This has been tested a few times on WSL (Windows Subsystem for Linux), and for whatever reason (as of April 2020) it will not work. 
 
+---
+
+You might ask "Why would I want to do this?" Well, there is one basic reason. Many poeple want or need to stream to both Facebook and YouTube at the same time. This is much easier if you download software, but for a business this can cost thousands of dollars a year. This is just not practical for smaller businesses. Most people stream like this:
+
+![default](img/default_stream.png)
+
+Their stream just goes to one computer, than to the internet and one source. This is probably what you are doing right now. You *could* stream to two services by running two computers and two cameras, or splitting the output from one camera to two cameras. An example of this is seen below:
+
+![double](img/double_stream.png)
+
+The main problem with this is you need two operators, or one overtasked one, to get the job done. It also takes up a lot of bandwidth. A way to get around this is to send the stream to a local server which duplicates the stream and sends it to the two or more services.
+
+![local_proxy](img/proxy_stream.png)
+
+While this eliminated the two operators problem, it still takes up a lot of bandwidth. How do you get around this? Well, most people end up buying expensive software like [wirecast](https://www.telestream.net/wirecast/store.asp) or using a subscription-based service such as [restream.io](restream.io). Well, there is a better (and free) alternative! Using Amazon Web Services (or AWS), we can do the same thing as the last solution, but with half the bandwidth! It is the same except that the server is not local.
+
+![ec2_proxy_stream](img/ec2_proxy_stream.png)
+
+You send your stream to the server, then the server splits it up, sending it to your services. Since the server is not local, you are using the same bandwidth as just streaming to one service!
+
 Ok, so for the first step you need to sign up for an AWS account [here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=default&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). You will need a credit card, but since this tutorial will cover using the free tier, you should not be charged for it.
 
 Second, you need to create an *EC2* instance.
