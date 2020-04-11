@@ -14,7 +14,7 @@ Their stream just goes to one computer, then to the internet and one source. Thi
 
 ![double](img/double_stream.png)
 
-The main problem with this is you need two operators, or one overtasked one, to get the job done. It also takes up a lot of bandwidth. A way to get around this is to send the stream to a local server which duplicates the stream and sends it to the two or more services. You can use a program like [vmix] or [wirecast] to do this, but it will cost you money. Or you can run your own nginx-rmtp server to accomplish the same thing.
+The main problem with this is you need two operators, or one overtasked one, to get the job done. It also takes up a lot of bandwidth. A way to get around this is to send the stream to a local server which duplicates the stream and sends it to the two or more services. You can use a program like [vmix](https://www.vmix.com/) or [wirecast](https://www.telestream.net/wirecast/store.asp) to do this, but it will cost you money. Or you can run your own nginx-rmtp server to accomplish the same thing.
 
 ![local_proxy](img/proxy_stream.png)
 
