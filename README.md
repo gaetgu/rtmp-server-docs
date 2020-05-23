@@ -2,7 +2,7 @@
 
 Do you stream through facebook or youtube? Do you wish you could stream to both at the same time without paying hundreds of dollars for expensive software? Well, this guide will show you how!
 
-First, a quick note. You will need a Linux distro, or a similar OS such as macOS, to be able to do this. This has been tested a few times on WSL (Windows Subsystem for Linux), and for whatever reason (as of April 2020) it will not work. 
+First, a quick note. If you are running on a non-unix OS (e.g. Windows), you must get a bash command line. I recommend WSL, Windows Subsystem for Linux, but you could (in theory, not tested) use something like Git Bash.
 
 ---
 
@@ -10,7 +10,7 @@ You might ask "Why would I want to do this?" Well, there is one basic reason. Ma
 
 ![default](img/default_stream.png)
 
-Their stream just goes to one computer, then to the internet and one source. This is probably what you are doing right now. You *could* stream to two services by running two computers and two cameras, or splitting the output from one camera to two cameras. An example of this is seen below:
+Their stream just goes to one computer, then to the internet and one source. This is probably what you are doing right now. You *could* stream to two services by running two computers and two cameras, or splitting the output from one camera to two computers. An example of this is seen below:
 
 ![double](img/double_stream.png)
 
@@ -18,13 +18,15 @@ The main problem with this is you need two operators, or one overtasked one, to 
 
 ![local_proxy](img/proxy_stream.png)
 
-While this eliminated the two operators problem, it still takes up a lot of bandwidth. How do you get around this? Most people end up using expensive solutions such as [restream.io](restream.io). For one person this is really not a big deal, but if you are a business this can end up costing you thousands of dollars. Well, there is a better (and free) alternative! Using Amazon Web Services (or AWS), we can do the same thing as the last solution, but with half the bandwidth! It is the same except that the server is not local.
+While this eliminated the two operators problem, it still takes up a lot of bandwidth. How do you get around this? Most people end up using expensive solutions such as [restream.io](restream.io). For one person this is really not a big deal, but if you are a business this can end up costing you thousands of dollars a year. Well, there is a better (and cheaper) alternative! Using AWS (Amazon Web Services), we can do the same thing as the last solution, but with half the bandwidth!
 
 ![ec2_proxy_stream](img/ec2_proxy_stream.png)
 
 You send your stream to the server, then the server splits it up, sending it to your services. Since the server is not local, you are using the same bandwidth as just streaming to one service, because the bandwidth is being used in amazon's server.
 
 Ok, so for the first step you need to sign up for an AWS account [here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=default&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). You will need a credit card, but since this tutorial will cover using the free tier, you should not be charged for it.
+
+*EDIT:   In order to keep within the free tier, you must be vigilant about powering up the server **only** when you need it. This carries with it the issue that you might have made some small mistake in shutting it down, so when you power it up right before you need it, there is a bug that might take some time to fix. This being said, if you don't shut down the server, it will only cost about $15 a month, compared to $41 a month for restream, assuming you don't want a watermark on your stream. This estimate is taken with an activity of about 9 hours a month.*
 
 Second, you need to create an *EC2* instance.
 
@@ -39,6 +41,7 @@ Again, this should not be messed with, so click *Next: Add Tags*, and click *Nex
 
 You will need to do some configuration on this portion of the setup. Add rules with these parameters:
 
+
 | Port  | Inbound  | Service |
 | ----- | -------  | ------- |
 | 80    | Anywhere | HTTP    |
@@ -47,7 +50,15 @@ You will need to do some configuration on this portion of the setup. Add rules w
 | 1935  | My IP    | RTMP    |
 | 19350 | My IP    | RTMPS   |
 
-Note that this will allow you to access this server only from your own computer.
+
+Note that this will allow you to access this server only from the computer you set this up on. In order to find your ip, look at the provided chart below.
+
+|      Linux      |          macOS           |   Windows   |
+|      -----      |          -----           |   -------   |
+|   ifconfig -a   |  ipconfig getifaddr en1  |   ipconfig  |
+
+
+
 Click *Review and Launch* to finish. Make sure that the security group's settings are correct, then click *Launch*.
 Select *Create a new key pair* from the drop-down menu. Name it something memorable, download it, and select *Launch Instances*.
 Now select *View Instances*. Copy the Puplic DNS.
@@ -57,6 +68,8 @@ Now select *View Instances*. Copy the Puplic DNS.
 
 Fire up a terminal in the directory in which you have the key pair. Run `sudo chmod 400 <yourkeypairname>.pem`.
 Then, run `sudo ssh -i '<yourkeypairname>.pem' ubuntu@<yourpublicdns>`, replacing <yourpublicdns> with the string copied earlier. If all goes well, your terminal should ask you if you want to keep connecting. Type yes and hit enter. If you do not get this message and instead get something like "the host is not available at this time", just give it a few minutes and try again.
+	
+*EDIT:   On WSL, it is a little harder to access the files in order to run the above commands. Use [this](https://www.howtogeek.com/426749/how-to-access-your-linux-wsl-files-in-windows-10/) to know how to access your WSL file location. Once you have that, copy the* .pem *file into the WSL folder, then you should be able to run these commands.*
 
 Once you are in, you are going to need to install a few things. Run these commands one at a time:
 
@@ -166,7 +179,7 @@ rtmp {
                         live on;
                         record off;
 		                    push rtmp://a.rtmp.youtube.com/live2/<your youtube stream key>;
-			                  push rtmp://127.0.0.1:19350/rtmp/<your persistent stream key>;
+			            push rtmp://127.0.0.1:19350/rtmp/<your persistent stream key>;
                 }
         }
 }
@@ -231,3 +244,5 @@ into it.
 Now you have finished configuring! Run `sudo systemctl start nginx && sudo systemctl start stunnel4`. If this is successful, you should be able to run `sudo systemctl status nginx` and `sudo systemctl status stunnel4`. If this isn't working, first make sure you followed the steps carefully, and if there is no error, Google it! Again, this will not work on WSL.
 
 Alright. Now to get your software set up. To do this, go into the streaming settings. Select custom. For the server, paste in *rtmps://your ec2 public dns/live*. For the stream key, paste in your persistent fb stream key. Start streaming, and in a few moments you should see your video appear in both YouTube and Facebook at the same time! 
+
+*EDIT:   You can theoretically use this method to stream to many, many more locations than* just *YT and FB. You can do this by adding more `push whatever-your-stream-url;` under the others in your `nginx.conf` file.*
