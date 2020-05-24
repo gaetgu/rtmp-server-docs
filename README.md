@@ -6,7 +6,7 @@ First, a quick note. If you are running on a non-unix OS (e.g. Windows), you mus
 
 ---
 
-You might ask "Why would I want to do this?" Well, there is one basic reason. Many poeple want or need to stream to both Facebook and YouTube at the same time. This is much easier if you download software, but for a business this can cost thousands of dollars a year. This is just not practical for smaller businesses. Most people stream like this:
+You might ask "Why would I want to do this?" Well, there is one basic reason. Many people want or need to stream to both Facebook and YouTube at the same time. This is much easier if you download software, but for a business this can cost thousands of dollars a year. This is just not practical for smaller businesses. Most people stream like this:
 
 ![default](img/default_stream.png)
 
@@ -26,7 +26,7 @@ You send your stream to the server, then the server splits it up, sending it to 
 
 Ok, so for the first step you need to sign up for an AWS account [here](https://portal.aws.amazon.com/billing/signup?nc2=h_ct&src=default&redirect_url=https%3A%2F%2Faws.amazon.com%2Fregistration-confirmation#/start). You will need a credit card, but since this tutorial will cover using the free tier, you should not be charged for it.
 
-*EDIT:   In order to keep within the free tier, you must be vigilant about powering up the server **only** when you need it. This carries with it the issue that you might have made some small mistake in shutting it down, so when you power it up right before you need it, there is a bug that might take some time to fix. This being said, if you don't shut down the server, it will only cost about $15 a month, compared to $41 a month for restream, assuming you don't want a watermark on your stream. This estimate is taken with an activity of about 9 hours a month.*
+*EDIT:   In order to keep within the free tier, you must be vigilant about powering up the server **only** when you need it. This carries with it the issue that you might have made some small mistake in shutting it down, so when you power it up right before you need it, there is a bug that might take some time to fix. This being said, if you don't shut down the server, it will only cost about $15 a month, compared to $41 a month for restream.io, assuming you don't want a watermark on your stream. This estimate is taken with an activity of about 9 hours a month.*
 
 Second, you need to create an *EC2* instance.
 
@@ -231,7 +231,7 @@ PPP_RESTART=0
 RLIMITS=""
 ```
 Now you need to create a conf.d folder. Do this by running `sudo mkdir /etc/stunnel/conf.d` and `sudo cd /etc/stunnel/conf.d`.
-Once in this folder, run `sudo nano fb.conf` and paste
+Once in this folder, run `sudo nano fb.conf` and paste this into it:
 ```sh
 [fb-live]
 client = yes
@@ -239,9 +239,9 @@ accept = 127.0.0.1:19350
 connect = live-api-s.facebook.com:443
 verifyChain = no
 ```
-into it.
 
-Now you have finished configuring! Run `sudo systemctl start nginx && sudo systemctl start stunnel4`. If this is successful, you should be able to run `sudo systemctl status nginx` and `sudo systemctl status stunnel4`. If this isn't working, first make sure you followed the steps carefully, and if there is no error, Google it! Again, this will not work on WSL.
+
+Once you save the file, you should be finished configuring! Run `sudo systemctl start nginx && sudo systemctl start stunnel4`. If this is successful, you should be able to run `sudo systemctl status nginx` and `sudo systemctl status stunnel4`. If this isn't working, first make sure you followed the steps carefully, and if you can't find a visible error, Google it! StackExchange was a great help while learning how to do this.
 
 Alright. Now to get your software set up. To do this, go into the streaming settings. Select custom. For the server, paste in *rtmps://your ec2 public dns/live*. For the stream key, paste in your persistent fb stream key. Start streaming, and in a few moments you should see your video appear in both YouTube and Facebook at the same time! 
 
