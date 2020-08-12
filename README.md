@@ -2,7 +2,7 @@
 
 Do you stream through facebook or youtube? Do you wish you could stream to both at the same time without paying hundreds of dollars for expensive software? Well, this guide will show you how!
 
-First, a quick note. If you are running on a non-unix OS (e.g. Windows), you must get a bash command line. I recommend WSL, Windows Subsystem for Linux, but you could (in theory, not tested) use something like Git Bash.
+First, a quick note. If you are running on a non-unix OS (e.g. Windows), you must get a bash command line. I recommend WSL, Windows Subsystem for Linux, but you could (in theory, I don't have the time nor the inclination to test it) use something like Git Bash.
 
 ---
 
@@ -51,7 +51,7 @@ You will need to do some configuration on this portion of the setup. Add rules w
 | 19350 | My IP    | RTMPS   |
 
 
-Note that this will allow you to access this server only from the computer you set this up on. In order to find your ip, look at the provided chart below.
+Note that this will allow you to access this server only from the computer you set this up on. If you want it to be accessible from anywhere (and lose a good amount of security) you can change it to Anywhere. In order to find your ip, run your corresponding command in your OS's terminal app.
 
 |      Linux      |          macOS           |   Windows   |
 |      -----      |          -----           |   -------   |
@@ -68,20 +68,16 @@ Now select *View Instances*. Copy the Puplic DNS.
 
 Fire up a terminal in the directory in which you have the key pair. Run `sudo chmod 400 <yourkeypairname>.pem`.
 Then, run `sudo ssh -i '<yourkeypairname>.pem' ubuntu@<yourpublicdns>`, replacing <yourpublicdns> with the string copied earlier. If all goes well, your terminal should ask you if you want to keep connecting. Type yes and hit enter. If you do not get this message and instead get something like "the host is not available at this time", just give it a few minutes and try again.
-	
+
 *EDIT:   On WSL, it is a little harder to access the files in order to run the above commands. Use [this](https://www.howtogeek.com/426749/how-to-access-your-linux-wsl-files-in-windows-10/) to know how to access your WSL file location. Once you have that, copy the* .pem *file into the WSL folder, then you should be able to run these commands.*
 
-Once you are in, you are going to need to install a few things. Run these commands one at a time:
+Once you are logged into the VM, you are going to need to install a few things. Run this command:
 
 ```sh
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt install nginx
-sudo apt install libnginx-mod-rtmp
-sudo apt-get install stunnel4
+sudo apt-get update; sudo apt-get upgrade; sudo apt install nginx; sudo apt install libnginx-mod-rtmp; sudo apt-get install stunnel4
 ```
 
-Once you are done, it is time to configure everything. First, sign into Facebook and start a new live stream. Check *Use persistent key*, and copy the key. Now, run `sudo nano /etc/nginx/nginx.conf`. In this file, append 
+Once you are done, it is time to configure everything. First, sign into Facebook and start a new live stream. Check *Use persistent key*, and copy the key. Now, run `sudo nano /etc/nginx/nginx.conf`. In this file, append
 ```sh
 rtmp {
         server {
@@ -97,14 +93,7 @@ rtmp {
         }
 }
 ```
-to after the http arguments, pasting the facebook stream key in it's spot. In all, your .conf file should look something like this:
-```sh
-# Important notes
-
-Facebook is enforcing rtmps, so additional programs are required to do this. Please see the explanation for this on the stunnel. I actually got the info from this site, but remember that sites do change. I will include a PDF file of this into our Devonthink database.
-
-`/etc/nginx/nginx.conf`
-
+to the file after the http arguments, pasting the facebook stream key in it's spot. In all, your .conf file should look something like this:
 ```sh
 user www-data;
 worker_processes auto;
@@ -179,7 +168,7 @@ rtmp {
                         live on;
                         record off;
 		                    push rtmp://a.rtmp.youtube.com/live2/<your youtube stream key>;
-			            push rtmp://127.0.0.1:19350/rtmp/<your persistent stream key>;
+			            			push rtmp://127.0.0.1:19350/rtmp/<your facebook stream key>;
                 }
         }
 }
@@ -205,7 +194,7 @@ rtmp {
 #	}
 #}
 ```
-Alright, right now you would have to change this file every time you made a new stream. To change this, in YT Live select *Create New Stream Key* in the drop-down menu. 
+For how it is set up right now you would have to change this file every time you made a new stream. To change this, in the YouTube Live menu select *Create New Stream Key* from the RTMP Key drop-down menu.
 
 Once you have created this key, go to the same drop-down menu and select your key name. Copy this key and paste it into the YT area of the nginx.conf file.
 
@@ -243,6 +232,6 @@ verifyChain = no
 
 Once you save the file, you should be finished configuring! Run `sudo systemctl start nginx && sudo systemctl start stunnel4`. If this is successful, you should be able to run `sudo systemctl status nginx` and `sudo systemctl status stunnel4`. If this isn't working, first make sure you followed the steps carefully, and if you can't find a visible error, Google it! StackExchange was a great help while learning how to do this.
 
-Alright. Now to get your software set up. To do this, go into the streaming settings. Select custom. For the server, paste in *rtmps://your ec2 public dns/live*. For the stream key, paste in your persistent fb stream key. Start streaming, and in a few moments you should see your video appear in both YouTube and Facebook at the same time! 
+Alright. Now to get your software set up. To do this, go into the streaming settings. Select custom server (might be called something else, depending on what software you are using. I am using the latest version of OBS Studio). For the server, paste in *rtmps://your ec2 public dns/live*. For the stream key, paste in your persistent fb stream key. Start streaming, and in a few moments you should see your video appear in both YouTube and Facebook at the same time!
 
 *EDIT:   You can theoretically use this method to stream to many, many more locations than* just *YT and FB. You can do this by adding more `push whatever-your-stream-url;` under the others in your `nginx.conf` file.*
